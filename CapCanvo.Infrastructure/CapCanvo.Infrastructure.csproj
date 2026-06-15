@@ -11,10 +11,8 @@
   </ItemGroup>
 
   <ItemGroup>
-	  <Folder Include="Config\" />
 	  <Folder Include="Repositories\" />
 	  <Folder Include="Services\" />
-	  <Folder Include="Persistence\" />
   </ItemGroup>
 
   <ItemGroup>
