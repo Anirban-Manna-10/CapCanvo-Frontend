@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useAuth } from "@clerk/clerk-react";
 import Landing from "../Pages/Landing";
 import Dashboard from "../Pages/Dashboard";
-import Board from "../Pages/Board";
+// import Board from "../Pages/Board";
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { isSignedIn, isLoaded } = useAuth();
@@ -26,14 +26,14 @@ export default function AppRouter() {
             </ProtectedRoute>
           }
         />
-        <Route
+        {/* <Route
           path="/board/:boardId"
           element={
             <ProtectedRoute>
               <Board />
             </ProtectedRoute>
           }
-        />
+        /> */}
       </Routes>
     </BrowserRouter>
   );

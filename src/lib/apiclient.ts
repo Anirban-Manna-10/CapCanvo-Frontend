@@ -2,7 +2,7 @@ import axios from "axios";
 import { useAuth } from "@clerk/clerk-react";
 
 const apiClient = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL,
+  baseURL: import.meta.env.VITE_API_LOCAL_URL,
 });
 
 export function useApiClient() {
@@ -10,9 +10,7 @@ export function useApiClient() {
 
   apiClient.interceptors.request.use(async (config) => {
     const token = await getToken();
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
+    if (token) config.headers.Authorization = `Bearer ${token}`;
     return config;
   });
 
