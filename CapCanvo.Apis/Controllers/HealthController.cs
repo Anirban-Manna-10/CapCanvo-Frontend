@@ -18,9 +18,10 @@ public class HealthController : ControllerBase
     }
 
     [HttpGet]
+    [Authorize]
     public IActionResult Get()
     {
-        var userCount = _context.Users.CountDocuments(Builders<User>.Filter.Empty);
-        return Ok(new { status = "MongoDB connected ✅", users = userCount });
+        var userCount = _context.Users.CountDocuments( _ => true);
+        return Ok(new { status = "MongoDB connected ", users = userCount });
     }
 }
