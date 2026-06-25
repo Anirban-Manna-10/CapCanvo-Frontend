@@ -1,6 +1,5 @@
 import { SignInButton, SignedIn, SignedOut } from "@clerk/clerk-react";
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
 
 export default function Landing() {
   const navigate = useNavigate();

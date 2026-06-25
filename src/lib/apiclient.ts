@@ -1,18 +1,19 @@
 import axios from "axios";
-import { useAuth } from "@clerk/clerk-react";
 
-const apiClient = axios.create({
+export const apiClient = axios.create({
   baseURL: import.meta.env.VITE_API_LOCAL_URL,
 });
 
-export function useApiClient() {
-  const { getToken } = useAuth();
+let getTokenFn: (() => Promise<string | null>) | null = null;
 
-  apiClient.interceptors.request.use(async (config) => {
-    const token = await getToken();
-    if (token) config.headers.Authorization = `Bearer ${token}`;
-    return config;
-  });
-
-  return apiClient;
+export function registerTokenGetter(fn: () => Promise<string | null>) {
+  getTokenFn = fn;
 }
+
+apiClient.interceptors.request.use(async (config) => {
+  if (getTokenFn) {
+    const token = await getTokenFn();
+    if (token) config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});

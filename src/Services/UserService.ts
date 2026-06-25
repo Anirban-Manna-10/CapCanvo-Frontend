@@ -1,8 +1,13 @@
-import { useApiClient } from "../lib/apiClient";
+import { apiClient } from "../lib/apiClient";
 
-const api = useApiClient();
-const baseUrl = '/api/users';
+const baseUrl = "/api/users";
+
+export interface SyncUserParams {
+  email: string;
+  displayName: string|null;
+  avatarUrl: string;
+}
+
 export const UserService = {
-    syncUser: (clerkId: string, email: string, displayName: string, avatarUrl: string) => 
-        api.post(`${baseUrl}/sync`, {clerkId, email, displayName, avatarUrl})
+  syncUser: (params: SyncUserParams) => apiClient.post(`${baseUrl}/sync`, params),
 };
