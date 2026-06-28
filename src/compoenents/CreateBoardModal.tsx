@@ -29,30 +29,36 @@ export default function CreateBoardModal({ open, onClose, onCreated }: CreateBoa
   const isEmpty = trimmedLength === 0;
 
   const handleClose = () => {
-    if (submitting) return; // don't let them close mid-request
+    if (submitting) return;
     setTitle("");
     setError(null);
     onClose();
   };
 
-  const handleSubmit = async () => {
-    if (isEmpty || isTooLong) return;
+const handleSubmit = () => {
+  if (isEmpty || isTooLong) return;
 
-    setSubmitting(true);
-    setError(null);
+  setSubmitting(true);
+  setError(null);
 
-    try {
-      const res = await BoardService.createBoard({ title: title.trim() });
-      onCreated(res.data);
-      setTitle("");
-      onClose();
-    } catch (err) {
+  BoardService.createBoard({ title: title.trim() })
+    .then((res) => {
+      if(res.data){
+        onCreated(res.data);
+        setTitle("");
+        onClose();
+      }else{
+        setError("Couldn't create the board. Please try again.");
+      }
+    })
+    .catch((err) => {
       console.error("Failed to create board:", err);
       setError("Couldn't create the board. Please try again.");
-    } finally {
+    })
+    .finally(() => {
       setSubmitting(false);
-    }
-  };
+    });
+};
 
   return (
     <Dialog open={open} onClose={handleClose} fullWidth maxWidth="sm">
